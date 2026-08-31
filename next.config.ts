@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.shopify.com' }],
   },
 
-  // Legacy 301s live in src/middleware.ts: redirects() matches case-insensitively,
+  // Legacy 301s live in src/proxy.ts: redirects() matches case-insensitively,
   // which turns /Services -> /services into a redirect loop on a real page.
 }
 

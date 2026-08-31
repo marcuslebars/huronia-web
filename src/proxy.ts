@@ -17,6 +17,8 @@ import { NextResponse, type NextRequest } from 'next/server'
  * on shopmidland.com, a domain the business does not own; unless that hostname
  * points here, none of this runs and the link equity is lost. That is a DNS
  * question, not a code one.
+ *
+ * (File named proxy.ts: the `middleware` convention is deprecated in Next 16.)
  */
 const LEGACY_REDIRECTS = new Map<string, string>([
   ['/home', '/'],
@@ -27,7 +29,7 @@ const LEGACY_REDIRECTS = new Map<string, string>([
   ['/contact', '/contact'],
 ])
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const target = LEGACY_REDIRECTS.get(pathname.toLowerCase())
 
@@ -37,15 +39,26 @@ export function middleware(request: NextRequest) {
   return NextResponse.redirect(new URL(target, request.url), 301)
 }
 
+/**
+ * Matched paths are listed literally. An inline case-insensitive group like
+ * `(?i:home)` is not valid in a JavaScript RegExp: it builds on Windows but
+ * fails the Linux build with "Invalid source", so the two casings that actually
+ * occur — the brief's exact-case legacy URLs and their lowercase forms — are
+ * enumerated instead.
+ */
 export const config = {
-  // Only the legacy paths, in any casing. Everything else skips the middleware
-  // entirely rather than paying for a lookup on every request.
   matcher: [
-    '/((?i:home))',
-    '/((?i:products))',
-    '/((?i:services))',
-    '/((?i:latestnews))',
-    '/((?i:testimonials))',
-    '/((?i:contact))',
+    '/Home',
+    '/home',
+    '/Products',
+    '/products',
+    '/Services',
+    '/services',
+    '/LatestNews',
+    '/latestnews',
+    '/Testimonials',
+    '/testimonials',
+    '/Contact',
+    '/contact',
   ],
 }
