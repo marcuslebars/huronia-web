@@ -22,6 +22,17 @@ const eslintConfig = defineConfig([
       // PROJECT_BRIEF.md §2 / CLAUDE.md: `any` is banned, not discouraged.
       // Phase 7's "zero `any`" gate is enforced here — `tsc` alone permits explicit any.
       '@typescript-eslint/no-explicit-any': 'error',
+      // Underscore marks a deliberately discarded binding (e.g. stripping a key
+      // off a rest spread). Everything else unused is an error.
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
       '@typescript-eslint/consistent-type-imports': [
         'error',
         { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
