@@ -15,7 +15,10 @@
     "format:check": "prettier --check .",
     "test": "playwright test",
     "check:unconfirmed": "node scripts/check-unconfirmed.mjs",
-    "prebuild": "node scripts/check-unconfirmed.mjs"
+    "prebuild": "npm run check",
+    "check:copy": "node scripts/check-component-copy.mjs",
+    "check:reviews": "node scripts/check-reviews-verbatim.mjs",
+    "check": "npm run check:unconfirmed && npm run check:copy && npm run check:reviews"
   },
   "dependencies": {
     "next": "16.3.3",

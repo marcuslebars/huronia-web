@@ -38,6 +38,9 @@ jobs:
           NEXT_PUBLIC_SITE_URL=http://localhost:3000
           ENV
 
+      - name: Content gates (unconfirmed facts, copy location, verbatim reviews)
+        run: npm run check
+
       - name: Typecheck
         run: npm run typecheck
 

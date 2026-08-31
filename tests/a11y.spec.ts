@@ -1,7 +1,15 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-const ROUTES = ['/', '/kitchen-sink'] as const
+const ROUTES = [
+  '/',
+  '/about',
+  '/areas',
+  '/contact',
+  '/reviews',
+  '/services',
+  '/kitchen-sink',
+] as const
 
 for (const route of ROUTES) {
   test(`${route} has zero axe violations`, async ({ page }) => {
