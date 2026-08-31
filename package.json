@@ -18,7 +18,9 @@
     "prebuild": "npm run check",
     "check:copy": "node scripts/check-component-copy.mjs",
     "check:reviews": "node scripts/check-reviews-verbatim.mjs",
-    "check": "npm run check:unconfirmed && npm run check:copy && npm run check:reviews"
+    "check": "npm run check:unconfirmed && npm run check:copy && npm run check:reviews",
+    "check:zero-price": "node scripts/check-no-zero-price.mjs",
+    "postbuild": "node scripts/check-no-zero-price.mjs"
   },
   "dependencies": {
     "next": "16.3.3",

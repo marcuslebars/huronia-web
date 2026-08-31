@@ -66,6 +66,14 @@ const eslintConfig = defineConfig([
     rules: { 'no-restricted-imports': 'off' },
   },
 
+  // So are the tests. Unit-testing the transform that maps a $0.00 product to
+  // quote-only means reaching past the barrel on purpose; exporting internals
+  // from the barrel just to satisfy the linter would be the worse trade.
+  {
+    files: ['tests/**/*.ts'],
+    rules: { 'no-restricted-imports': 'off' },
+  },
+
   prettier,
 ])
 

@@ -4,16 +4,13 @@ import { expect, test } from '@playwright/test'
  * Phase 2 gate — every page has a unique title and meta description,
  * written for humans (§9).
  */
+import { indexableRoutes, noindexRoutes } from '../src/lib/routes'
+
 const ROUTES = [
-  '/',
-  '/about',
-  '/areas',
-  '/contact',
-  '/reviews',
-  '/services',
-  '/quote',
-  '/kitchen-sink',
-] as const
+  ...indexableRoutes.map((route) => route.path),
+  ...noindexRoutes,
+  '/shop/wheels-tires/wheels-tires-sample-2',
+]
 
 test('every route has a unique, non-empty title and description', async ({ request }) => {
   const seen: { route: string; title: string; description: string }[] = []

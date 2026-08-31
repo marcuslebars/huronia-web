@@ -1,16 +1,14 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { indexableRoutes, noindexRoutes } from '../src/lib/routes'
+
+/** Every indexable route, the audit surface, and one product page. */
 const ROUTES = [
-  '/',
-  '/about',
-  '/areas',
-  '/contact',
-  '/reviews',
-  '/services',
-  '/quote',
-  '/kitchen-sink',
-] as const
+  ...indexableRoutes.map((route) => route.path),
+  ...noindexRoutes,
+  '/shop/wheels-tires/wheels-tires-sample-2',
+]
 
 for (const route of ROUTES) {
   test(`${route} has zero axe violations`, async ({ page }) => {
