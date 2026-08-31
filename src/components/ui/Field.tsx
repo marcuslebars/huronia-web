@@ -10,7 +10,11 @@ type BaseProps = {
   error?: string
   required?: boolean
   disabled?: boolean
+  /** Controlled value. Pass with onChange; use defaultValue for uncontrolled. */
+  value?: string
   defaultValue?: string
+  /** Receives the value directly — callers never unwrap the event themselves. */
+  onChange?: (value: string) => void
   placeholder?: string
   autoComplete?: string
   className?: string
@@ -52,17 +56,30 @@ export function Field(props: FieldProps) {
       .filter(Boolean)
       .join(' ') || undefined
 
+  const { value, defaultValue, onChange } = props
+
   const shared = {
     id: fieldId,
     name,
     required,
     disabled,
-    defaultValue: props.defaultValue,
     placeholder: props.placeholder,
     autoComplete: props.autoComplete,
     className: control,
     'aria-describedby': describedBy,
     'aria-invalid': error ? true : undefined,
+    // Controlled when `value` is supplied, uncontrolled otherwise. Sending both
+    // would make React warn and the control would stop responding to typing.
+    ...(value === undefined ? { defaultValue } : { value }),
+    ...(onChange === undefined
+      ? {}
+      : {
+          onChange: (
+            event: React.ChangeEvent<
+              HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+            >,
+          ) => onChange(event.target.value),
+        }),
   }
 
   return (

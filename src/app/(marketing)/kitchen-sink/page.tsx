@@ -3,6 +3,7 @@ import { OverlayDemo } from './OverlayDemo'
 import { Accordion } from '@/components/ui/Accordion'
 import { Button, type ButtonVariant } from '@/components/ui/Button'
 import { Field } from '@/components/ui/Field'
+import { RadioGroup } from '@/components/ui/RadioGroup'
 import { Unconfirmed } from '@/components/ui/Unconfirmed'
 
 export const metadata: Metadata = {
@@ -111,6 +112,30 @@ export default function KitchenSinkPage() {
             label="Notes"
             name="ks-notes"
             description="Anything else we should know."
+          />
+        </div>
+      </Section>
+
+      <Section title="Radio groups">
+        <div className="grid gap-8 sm:grid-cols-2">
+          <RadioGroup
+            legend="Where would you like the work done?"
+            name="ks-location"
+            options={[
+              { value: 'in-shop', label: 'At the shop in Midland' },
+              { value: 'mobile', label: 'You come to me' },
+              { value: 'either', label: 'Either is fine' },
+            ]}
+          />
+          <RadioGroup
+            legend="How bad is the damage?"
+            name="ks-damage-radio"
+            error="Tell us how bad the damage is"
+            description="Shown here in its error state."
+            options={[
+              { value: 'chip', label: 'Small stone chip' },
+              { value: 'crack', label: 'Crack under 6 inches' },
+            ]}
           />
         </div>
       </Section>

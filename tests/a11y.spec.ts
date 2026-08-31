@@ -8,6 +8,7 @@ const ROUTES = [
   '/contact',
   '/reviews',
   '/services',
+  '/quote',
   '/kitchen-sink',
 ] as const
 
