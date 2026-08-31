@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: typecheck · lint · build · test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # No secrets are needed to build Phase 0. These placeholders satisfy
+      # lib/env.ts so the build exercises validation rather than skipping it.
+      # Real Shopify and Resend credentials arrive with Phases 3-5.
+      - name: Write placeholder environment
+        run: |
+          cat > .env.local <<'ENV'
+          SHOPIFY_STORE_DOMAIN=placeholder-store.myshopify.com
+          SHOPIFY_STOREFRONT_ACCESS_TOKEN=placeholder-storefront-token
+          SHOPIFY_WEBHOOK_SECRET=placeholder-webhook-secret
+          RESEND_API_KEY=re_placeholder
+          NEXT_PUBLIC_SITE_URL=http://localhost:3000
+          ENV
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Test
+        run: npm run test -- --project=chromium
+
+      - uses: actions/upload-artifact@v5
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

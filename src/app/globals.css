@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+/* Design tokens — PROJECT_BRIEF.md §5.
+   Declared in Tailwind v4's `@theme`, which both emits them as CSS custom
+   properties and generates the matching utilities (bg-paper, text-ink, ...).
+   Colour literals belong here and nowhere else. */
+@theme {
+  --color-ink: #14181a; /* near-black: body text, dark bands */
+  --color-paper: #ffffff;
+  --color-muted: #5d6b6e; /* secondary text */
+  --color-line: #e2e8e9; /* borders */
+  --color-panel: #f1f5f6; /* light section background */
+  --color-accent: #0f7b8a; /* glass teal: primary buttons, links */
+  --color-accent-dark: #0b5f6b; /* hover */
+  --color-signal: #f2a007; /* star ratings and alerts ONLY — never a CTA */
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  /* CLAUDE.md hard rule: every animation respects prefers-reduced-motion.
+     A global backstop so no future component can forget it. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

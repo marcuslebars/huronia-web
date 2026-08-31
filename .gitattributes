@@ -1,0 +1,4 @@
+# Normalise to LF everywhere. Prettier's endOfLine default is "lf", so a CRLF
+# working copy on Windows would fail `npm run format:check` after a fresh clone.
+* text=auto eol=lf
+package-lock.json -diff linguist-generated
