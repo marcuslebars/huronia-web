@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { Button } from '@/components/ui/Button'
-import { Unconfirmed } from '@/components/ui/Unconfirmed'
 import { Hero } from '@/components/marketing/Hero'
 import { Section } from '@/components/marketing/Section'
 import { telHref } from '@/content/business'
 import { about } from '@/content/pages'
 import { ui } from '@/content/ui'
+import { JsonLd } from '@/components/ui/JsonLd'
+import { breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: about.title,
@@ -26,11 +27,10 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section surface="panel" heading={about.teamHeading}>
-        <div className="max-w-measure">
-          <Unconfirmed>Staff names and roles for the About page</Unconfirmed>
-        </div>
-      </Section>
+      {/* A "The team" section is held back until staff names and roles are
+          confirmed (§4 open item 11). Rendering the heading with an Unconfirmed
+          marker under it produced an empty heading in production, since the
+          marker renders null there — worse than not having the section. */}
 
       <Section surface="ink">
         <div className="flex flex-wrap gap-3">
@@ -42,6 +42,12 @@ export default function AboutPage() {
           </Button>
         </div>
       </Section>
+      <JsonLd
+        schema={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: about.title, path: '/about' },
+        ])}
+      />
     </>
   )
 }

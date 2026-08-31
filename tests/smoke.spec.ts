@@ -4,7 +4,8 @@ test.describe('Phase 0 foundation', () => {
   test('home responds 200 and renders server-side', async ({ page }) => {
     const response = await page.goto('/')
     expect(response?.status()).toBe(200)
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+    // en-CA: a Canadian business, and it steers spelling and formatting hints.
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en-CA')
   })
 
   test('the document arrives with content already in the HTML', async ({ request }) => {

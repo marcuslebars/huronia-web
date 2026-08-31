@@ -1,14 +1,14 @@
 /**
  * Per-IP rate limit for POST /api/quote (§8).
  *
- * IN-MEMORY AND PER-INSTANCE. On Vercel each serverless instance keeps its own
- * counter, so the effective limit across a scaled-out deployment is higher than
- * the number below, and it resets on cold start. That is acceptable for a
- * low-traffic quote form whose real spam defence is the honeypot, but it is not
- * a security control.
+ * IN-MEMORY AND PER-INSTANCE. Every server instance keeps its own counter, so
+ * the effective limit across more than one replica is a multiple of the number
+ * below, and it resets whenever the process restarts or a deploy rolls. That is
+ * acceptable for a low-traffic quote form whose real spam defence is the
+ * honeypot, but it is not a security control.
  *
- * TODO (Phase 8): move to a durable store (Vercel KV / Upstash) before this
- * sees real traffic, and tighten the limit once we know normal volume.
+ * TODO (Phase 8): move to a durable store (Redis / Upstash) before this sees
+ * real traffic, and tighten the limit once we know normal volume.
  */
 
 const WINDOW_MS = 10 * 60 * 1000
@@ -57,8 +57,9 @@ export function resetRateLimit(): void {
 }
 
 /**
- * Trusts x-forwarded-for only because Vercel rewrites it at the edge. Behind a
- * different proxy this would need revisiting.
+ * Reads x-forwarded-for, which the platform proxy sets. A client can forge this
+ * header if requests can reach the app without passing through that proxy, so
+ * treat the limit as protection against accidents and crawlers, not abuse.
  */
 export function clientIp(headers: Headers): string {
   const forwarded = headers.get('x-forwarded-for')

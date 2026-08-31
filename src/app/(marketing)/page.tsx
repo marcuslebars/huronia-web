@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Accordion } from '@/components/ui/Accordion'
+import { JsonLd } from '@/components/ui/JsonLd'
 import { Button } from '@/components/ui/Button'
 import { Areas } from '@/components/marketing/Areas'
 import { Hero } from '@/components/marketing/Hero'
@@ -15,6 +16,7 @@ import { home } from '@/content/pages'
 import { reviews } from '@/content/reviews'
 import { services } from '@/content/services'
 import { ui } from '@/content/ui'
+import { faqPageSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: home.title,
@@ -91,6 +93,9 @@ export default function HomePage() {
           />
         </div>
       </Section>
+
+      {/* Answers here must stay identical to the accordion above. */}
+      <JsonLd schema={faqPageSchema(faqs)} />
     </>
   )
 }

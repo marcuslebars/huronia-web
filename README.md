@@ -34,6 +34,53 @@ Playwright runs against the **production** build, not `next dev`. Build first:
 npm run build && npm run test
 ```
 
+## Deployment
+
+The app is host-neutral: `npm run build` then `npm start`, and Next binds to `PORT`.
+
+### Environment
+
+`src/lib/env.ts` validates eagerly, so a missing or malformed variable stops the
+app booting rather than failing later at request time.
+
+`NEXT_PUBLIC_SITE_URL` is needed **at build time**, not just at runtime — Next
+inlines it into the bundle, and canonicals, the sitemap, Open Graph URLs and all
+JSON-LD are derived from it. Building with the wrong value bakes the wrong
+absolute URLs into every page, so set it to the real origin (no trailing slash)
+before the first production build.
+
+| Variable                          | Needed for                                        |
+| --------------------------------- | ------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`            | canonicals, sitemap, JSON-LD, OG — **build time** |
+| `RESEND_API_KEY`                  | the quote form's two emails                       |
+| `SHOPIFY_STORE_DOMAIN`            | Phase 3 onward                                    |
+| `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Phase 3 onward                                    |
+| `SHOPIFY_WEBHOOK_SECRET`          | `POST /api/revalidate`, Phase 3 onward            |
+
+The Shopify variables are validated even though nothing reads them yet, so the
+app will not start until they are set. Placeholders are fine until Phase 3.
+
+### The unconfirmed-facts gate
+
+`prebuild` fails a production build if any `<Unconfirmed>` marker is left in
+`src/` (§4). It runs strict when `CHECK_UNCONFIRMED=strict`, or when the host
+reports production via `RAILWAY_ENVIRONMENT_NAME`, `VERCEL_ENV` or `SITE_ENV`.
+This is intentional: it is what stops placeholder text reaching a customer.
+
+### Not yet launch-ready
+
+The site should not be pointed at a public domain as it stands:
+
+- `/shop`, `/shop/[collection]`, `/shop/[collection]/[product]` and `/cart` do
+  not exist (Phases 3-4, blocked on Shopify credentials).
+- The eight `/services/[slug]` and eight `/areas/[town]` pages do not exist
+  (blocked on the draft copy and the mobile service radius).
+- The header, mega menu and footer link to all of the above, so those links 404.
+- The `/Products` legacy redirect points at `/shop`, which is currently a 404.
+
+The sitemap and `robots.txt` only list routes that exist, so nothing broken is
+submitted to Google — but a visitor following the navigation will hit 404s.
+
 ## Status
 
 Phase 0 (foundation) only. Phases are defined in PROJECT_BRIEF.md §10; each one has

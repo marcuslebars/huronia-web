@@ -4,6 +4,8 @@ import { Hero } from '@/components/marketing/Hero'
 import { Section } from '@/components/marketing/Section'
 import { towns } from '@/content/areas'
 import { areasIndex } from '@/content/pages'
+import { JsonLd } from '@/components/ui/JsonLd'
+import { breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: areasIndex.title,
@@ -18,6 +20,12 @@ export default function AreasPage() {
       <Section>
         <Areas towns={towns} />
       </Section>
+      <JsonLd
+        schema={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: areasIndex.heading, path: '/areas' },
+        ])}
+      />
     </>
   )
 }

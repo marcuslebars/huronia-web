@@ -5,6 +5,8 @@ import { Section } from '@/components/marketing/Section'
 import { business, mailtoHref, telHref } from '@/content/business'
 import { contact } from '@/content/pages'
 import { ui } from '@/content/ui'
+import { JsonLd } from '@/components/ui/JsonLd'
+import { breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: contact.title,
@@ -116,6 +118,12 @@ export default function ContactPage() {
           </div>
         </div>
       </Section>
+      <JsonLd
+        schema={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: contact.heading, path: '/contact' },
+        ])}
+      />
     </>
   )
 }

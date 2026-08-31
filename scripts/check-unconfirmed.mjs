@@ -6,9 +6,13 @@
  * runtime property and is not statically decidable, so this check is stricter:
  * the marker must not appear in src/ at all.
  *
- * Strict (exit 1) when VERCEL_ENV=production or CHECK_UNCONFIRMED=strict.
+ * Strict (exit 1) on a production deploy, or when CHECK_UNCONFIRMED=strict.
  * Otherwise it reports and exits 0, so Phases 2-6 can build with open items
  * still flagged. Phase 7's gate runs it strict.
+ *
+ * Production is detected per host, not from NODE_ENV: `next build` sets
+ * NODE_ENV=production for every build including local ones, so keying off it
+ * would fail every developer build.
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
@@ -41,7 +45,10 @@ function walk(dir) {
 }
 
 const strict =
-  process.env.VERCEL_ENV === 'production' || process.env.CHECK_UNCONFIRMED === 'strict'
+  process.env.CHECK_UNCONFIRMED === 'strict' ||
+  process.env.VERCEL_ENV === 'production' ||
+  process.env.RAILWAY_ENVIRONMENT_NAME === 'production' ||
+  process.env.SITE_ENV === 'production'
 
 const findings = []
 for (const file of walk(SRC)) {

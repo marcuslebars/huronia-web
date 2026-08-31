@@ -4,6 +4,8 @@ import { QuoteForm } from './QuoteForm'
 import { Hero } from '@/components/marketing/Hero'
 import { Section } from '@/components/marketing/Section'
 import { quote } from '@/content/quote'
+import { JsonLd } from '@/components/ui/JsonLd'
+import { breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: quote.title,
@@ -23,6 +25,12 @@ export default function QuotePage() {
           </Suspense>
         </div>
       </Section>
+      <JsonLd
+        schema={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: quote.heading, path: '/quote' },
+        ])}
+      />
     </>
   )
 }

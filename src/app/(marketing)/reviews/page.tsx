@@ -4,6 +4,8 @@ import { Reviews } from '@/components/marketing/Reviews'
 import { Section } from '@/components/marketing/Section'
 import { reviewsPage } from '@/content/pages'
 import { reviews } from '@/content/reviews'
+import { JsonLd } from '@/components/ui/JsonLd'
+import { breadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: reviewsPage.title,
@@ -18,6 +20,12 @@ export default function ReviewsPage() {
       <Section>
         <Reviews reviews={reviews} />
       </Section>
+      <JsonLd
+        schema={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: reviewsPage.heading, path: '/reviews' },
+        ])}
+      />
     </>
   )
 }

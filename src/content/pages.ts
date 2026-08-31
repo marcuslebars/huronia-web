@@ -49,7 +49,7 @@ export const about = {
     'The work has not changed much in that time, even as the glass has. A windshield used to be glass and a seal. On a lot of vehicles now it is also a mounting point for the cameras and sensors that drive lane-keep assist and automatic emergency braking, which changes what a replacement involves.',
     'What has stayed the same is how the shop runs. You are told what the job needs before it starts, and what it will cost before you agree to it.',
   ],
-  teamHeading: 'The team',
+  // teamHeading: held back until staff names are confirmed (§4 open item 11).
 } as const
 
 export const contact = {
