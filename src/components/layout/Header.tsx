@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { MegaMenu } from '@/components/layout/MegaMenu'
 import { MobileNav } from '@/components/layout/MobileNav'
+import { CartButton } from '@/components/shop/CartButton'
 import { business, telHref } from '@/content/business'
 import { megaMenu, primaryNav } from '@/content/navigation'
 import { ui } from '@/content/ui'
@@ -63,6 +64,7 @@ export function Header() {
           <Button href="/quote" size="sm" className="hidden sm:inline-flex">
             {ui.quoteCta}
           </Button>
+          <CartButton />
           <MobileNav sections={megaMenu} primary={primaryNav} />
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { serverEnv } from '@/lib/env'
 import { fixtureFor, hasFixture } from '@/lib/shopify/fixtures'
+import { cartFixtureFor, hasCartFixture } from '@/lib/shopify/fixtures-cart'
 
 /**
  * Storefront API fetch wrapper.
@@ -63,6 +64,7 @@ export async function storefront<T>(
   options: StorefrontOptions = {},
 ): Promise<T> {
   if (usingFixtures()) {
+    if (hasCartFixture(query)) return cartFixtureFor(query, variables) as T
     if (!hasFixture(query, variables)) {
       throw new ShopifyError(
         'No catalogue fixture for this query. Add one in lib/shopify/fixtures, ' +

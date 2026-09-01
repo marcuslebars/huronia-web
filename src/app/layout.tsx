@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Archivo, Inter } from 'next/font/google'
+import { CartDrawer } from '@/components/shop/CartDrawer'
+import { CartProvider } from '@/components/shop/CartProvider'
 import { JsonLd } from '@/components/ui/JsonLd'
 import { business } from '@/content/business'
 import { services } from '@/content/services'
@@ -53,7 +55,13 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en-CA" className={`${archivo.variable} ${inter.variable}`}>
       <body data-surface="paper" className="antialiased">
-        {children}
+        {/* Sitewide so the header cart control and drawer work on every page,
+            not only under /shop. The cart hydrates from /api/cart on mount, so
+            no page has to become dynamic to read the cookie. */}
+        <CartProvider>
+          {children}
+          <CartDrawer />
+        </CartProvider>
         {/* Sitewide business node. Other schema references it by @id. */}
         <JsonLd schema={localBusinessSchema(services)} />
       </body>

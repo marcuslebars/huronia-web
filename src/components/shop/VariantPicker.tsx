@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
+import { AddToCartButton } from '@/components/shop/AddToCartButton'
 import { Price } from '@/components/shop/Price'
 import { cn } from '@/lib/cn'
 import type { Product, ProductVariant } from '@/types/catalogue'
@@ -15,6 +16,7 @@ export type VariantPickerProps = {
     quoteHelp: string
     addToCart: string
     soldOut: string
+    adding: string
     callLabel: string
   }
   telHref: string
@@ -120,9 +122,15 @@ export function VariantPicker({ product, labels, telHref }: VariantPickerProps) 
             </Button>
           </>
         ) : (
-          <Button size="lg" disabled={!available}>
-            {available ? labels.addToCart : labels.soldOut}
-          </Button>
+          <AddToCartButton
+            variantId={selected?.id ?? ''}
+            available={available}
+            labels={{
+              addToCart: labels.addToCart,
+              soldOut: labels.soldOut,
+              adding: labels.adding,
+            }}
+          />
         )}
       </div>
 

@@ -8,6 +8,7 @@ const ROUTES = [
   ...indexableRoutes.map((route) => route.path),
   ...noindexRoutes,
   '/shop/wheels-tires/wheels-tires-sample-2',
+  '/cart',
 ]
 
 for (const route of ROUTES) {

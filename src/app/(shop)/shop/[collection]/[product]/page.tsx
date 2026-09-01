@@ -163,6 +163,7 @@ export default async function ProductPage({
                   quoteHelp: shop.product.quoteHelp,
                   addToCart: shop.product.addToCart,
                   soldOut: shop.product.soldOut,
+                  adding: shop.cart.adding,
                   callLabel: ui.callCta,
                 }}
               />

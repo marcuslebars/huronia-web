@@ -10,6 +10,7 @@ const ROUTES = [
   ...indexableRoutes.map((route) => route.path),
   ...noindexRoutes,
   '/shop/wheels-tires/wheels-tires-sample-2',
+  '/cart',
 ]
 
 test('every route has a unique, non-empty title and description', async ({ request }) => {

@@ -22,6 +22,17 @@ import type { Collection, Product, ProductPage } from '@/types/catalogue'
 
 export { ShopifyError, usingFixtures }
 
+// Cart operations. Re-exported so the rest of the app never reaches past the
+// barrel — the whole point of hard rule 2 is that leaving Shopify touches one
+// directory.
+export {
+  addCartLine,
+  createCart,
+  getCart,
+  removeCartLine,
+  updateCartLine,
+} from '@/lib/shopify/cart'
+
 /** Cache tags, so the Shopify webhook can revalidate precisely (§7). */
 export const CACHE_TAGS = {
   collections: 'collections',

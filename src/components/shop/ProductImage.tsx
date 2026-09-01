@@ -9,6 +9,8 @@ export type ProductImageProps = {
   placeholderLabel: string
   sizes: string
   priority?: boolean
+  /** Icon only. The label does not fit in a thumbnail and gets clipped. */
+  compact?: boolean
   className?: string
 }
 
@@ -25,6 +27,7 @@ export function ProductImage({
   placeholderLabel,
   sizes,
   priority,
+  compact,
   className,
 }: ProductImageProps) {
   if (image === null) {
@@ -35,7 +38,7 @@ export function ProductImage({
           className,
         )}
       >
-        <div className="flex flex-col items-center gap-2 p-6 text-center">
+        <div className="flex flex-col items-center gap-2 p-2 text-center sm:p-6">
           {/* A pane of glass: on-theme, and clearly not a failed image. */}
           <svg
             viewBox="0 0 48 40"
@@ -49,7 +52,11 @@ export function ProductImage({
             <path d="M12 8 L9 34" opacity="0.5" />
             <path d="M28 8 L27 34" opacity="0.5" />
           </svg>
-          <span className="text-xs text-[var(--color-muted)]">{placeholderLabel}</span>
+          {compact ? (
+            <span className="sr-only">{placeholderLabel}</span>
+          ) : (
+            <span className="text-xs text-[var(--color-muted)]">{placeholderLabel}</span>
+          )}
         </div>
       </div>
     )

@@ -61,6 +61,29 @@ export const shop = {
     previous: 'Previous page',
   },
 
+  cart: {
+    title: 'Your Cart',
+    metaDescription:
+      'Review the parts and accessories in your cart before checking out with Huronia Auto Glass.',
+    heading: 'Your cart',
+    drawerTitle: 'Your cart',
+    openLabel: 'Open cart',
+    emptyHeading: 'Your cart is empty',
+    emptyBody:
+      'Most of the catalogue is quoted rather than priced online. If you cannot add something, ask us for a price instead.',
+    browseCta: 'Browse the shop',
+    quoteCta: 'Request a quote',
+    subtotal: 'Subtotal',
+    taxNote: 'Taxes and any fitting charges are worked out at checkout.',
+    checkout: 'Checkout',
+    viewCart: 'View cart',
+    quantity: 'Quantity',
+    increase: 'Increase quantity',
+    decrease: 'Decrease quantity',
+    remove: 'Remove',
+    adding: 'Adding…',
+  },
+
   /** §13.3: there is no photography, so every image slot needs this. */
   imagePlaceholderLabel: 'No photograph yet',
 } as const

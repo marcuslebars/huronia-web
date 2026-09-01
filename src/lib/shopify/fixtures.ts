@@ -105,7 +105,8 @@ const productsByCollection = new Map(
   ]),
 )
 
-const allProducts = [...productsByCollection.values()].flat()
+/** Exported so the fixture cart can resolve a variant id back to a product. */
+export const allFixtureProducts = [...productsByCollection.values()].flat()
 
 const collectionNodes = collectionContent.map((collection) => ({
   id: `gid://shopify/Collection/${collection.slug}`,
@@ -166,13 +167,15 @@ export function fixtureFor(query: string, variables: Variables): unknown {
 
   if (query === PRODUCT_QUERY) {
     const handle = String(variables.handle ?? '')
-    return { product: allProducts.find((product) => product.handle === handle) ?? null }
+    return {
+      product: allFixtureProducts.find((product) => product.handle === handle) ?? null,
+    }
   }
 
   if (query === PRODUCT_HANDLES_QUERY) {
     return {
       products: {
-        nodes: allProducts.map((product) => ({ handle: product.handle })),
+        nodes: allFixtureProducts.map((product) => ({ handle: product.handle })),
         pageInfo: { hasNextPage: false, endCursor: null },
       },
     }
