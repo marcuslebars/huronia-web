@@ -90,12 +90,12 @@ test.describe('Collection filters live in the URL', () => {
     await expect(page).toHaveURL(/sort=title-desc/)
     const descending = await page
       .getByTestId('product-grid')
-      .locator('h3')
+      .locator('h2')
       .allInnerTexts()
 
     await page.reload()
     await expect(page.getByLabel('Sort')).toHaveValue('title-desc')
-    expect(await page.getByTestId('product-grid').locator('h3').allInnerTexts()).toEqual(
+    expect(await page.getByTestId('product-grid').locator('h2').allInnerTexts()).toEqual(
       descending,
     )
 
@@ -110,7 +110,7 @@ test.describe('Collection filters live in the URL', () => {
     await expect(page.getByLabel('Brand')).toHaveValue('Sample Brand A')
     await expect(page.getByLabel('Sort')).toHaveValue('title-asc')
 
-    const titles = await page.getByTestId('product-grid').locator('h3').allInnerTexts()
+    const titles = await page.getByTestId('product-grid').locator('h2').allInnerTexts()
     expect(titles).toEqual([...titles].sort((a, b) => a.localeCompare(b)))
   })
 

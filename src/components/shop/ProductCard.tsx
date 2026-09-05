@@ -37,9 +37,12 @@ export function ProductCard({ product, collectionHandle, labels }: ProductCardPr
             </p>
           ) : null}
 
-          <h3 className="font-heading mt-1 font-medium group-hover:text-[var(--surface-link)]">
+          {/* h2, not h3: on a collection page these sit directly under the
+              collection's h1 with no intervening heading, and skipping a level
+              is a real accessibility failure (Lighthouse heading-order). */}
+          <h2 className="font-heading mt-1 font-medium group-hover:text-[var(--surface-link)]">
             {product.title}
-          </h3>
+          </h2>
 
           <div className="mt-auto pt-3 text-sm">
             {product.available ? (

@@ -34,6 +34,31 @@ Playwright runs against the **production** build, not `next dev`. Build first:
 npm run build && npm run test
 ```
 
+## Quality gates (Phase 7)
+
+Most gates run with `npm run test`: axe on every route, a keyboard-only pass
+asserting every interactive element paints a focus ring, and no horizontal
+scroll at 320, 375, 768, 1024 and 1440.
+
+Lighthouse is separate because it needs a running production server:
+
+```bash
+npm run build && npm run start   # one shell
+npm run lighthouse               # another
+```
+
+It runs the **mobile** profile (the script prints the emulation it used, so this
+is verifiable rather than assumed) and fails below the brief's thresholds:
+performance 95, accessibility 100, SEO 100.
+
+It is deliberately **not** in CI. Shared GitHub runners give noisy performance
+numbers, and a gate that fails randomly gets ignored. Run it before a deploy,
+and again against the deployed URL — that is the number that matters:
+
+```bash
+LIGHTHOUSE_URL=https://your-domain npm run lighthouse
+```
+
 ## Deployment
 
 The app is host-neutral: `npm run build` then `npm start`, and Next binds to `PORT`.

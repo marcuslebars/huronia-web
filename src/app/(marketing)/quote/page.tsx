@@ -19,8 +19,11 @@ export default function QuotePage() {
       <Hero surface="panel" heading={quote.heading} body={quote.intro} />
       <Section>
         <div className="max-w-3xl">
-          {/* useSearchParams needs a boundary: the step lives in the URL (§3 rule 5). */}
-          <Suspense fallback={null}>
+          {/* useSearchParams needs a boundary: the step lives in the URL (§3 rule 5).
+              The fallback reserves the form's height rather than rendering
+              nothing — a null fallback collapses the page and then pushes it
+              back open on hydration, which Lighthouse scored as layout shift. */}
+          <Suspense fallback={<div aria-hidden="true" className="min-h-[40rem]" />}>
             <QuoteForm />
           </Suspense>
         </div>

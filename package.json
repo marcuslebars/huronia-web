@@ -20,7 +20,8 @@
     "check:reviews": "node scripts/check-reviews-verbatim.mjs",
     "check": "npm run check:unconfirmed && npm run check:copy && npm run check:reviews",
     "check:zero-price": "node scripts/check-no-zero-price.mjs",
-    "postbuild": "node scripts/check-no-zero-price.mjs"
+    "postbuild": "node scripts/check-no-zero-price.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "next": "16.3.3",
@@ -36,9 +37,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "chrome-launcher": "^1.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
     "eslint-config-prettier": "^10.1.8",
+    "lighthouse": "^13.4.1",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4",
